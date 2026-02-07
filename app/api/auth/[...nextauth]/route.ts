@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { prisma } from "@/lib/prisma"
+// import { prisma } from "@/lib/prisma" // Removed
 import bcrypt from "bcryptjs"
 
 export const authOptions = {
@@ -13,11 +13,15 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } })
+        // Import dynamique pour éviter les dépendances circulaires possibles côté serveur si besoin, 
+        // mais ici c'est bon car c'est une route API
+        const { getUserByEmail } = await import('@/lib/firestore-utils');
+
+        const user = await getUserByEmail(credentials.email)
         if (!user) return null
         const isValid = await bcrypt.compare(credentials.password, user.password_hash)
         if (!isValid) return null
-        return { id: user.id.toString(), name: user.name, email: user.email }
+        return { id: user.id, name: user.name, email: user.email }
       },
     }),
   ],

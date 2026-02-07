@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { getUserByEmail } from '@/lib/firestore-utils'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Email et mot de passe requis' }, { status: 400 })
   }
 
-  const user = await prisma.user.findUnique({ where: { email } })
+  const user = await getUserByEmail(email)
   if (!user) {
     return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 })
   }

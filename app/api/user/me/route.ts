@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+// import { prisma } from '@/lib/prisma' // Removed
 import jwt from 'jsonwebtoken'
 
 export async function GET(req: NextRequest) {
@@ -8,8 +8,12 @@ export async function GET(req: NextRequest) {
     if (!token) {
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: number }
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId } })
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string }
+
+    // Import dynamique
+    const { getUserById } = await import('@/lib/firestore-utils');
+    const user = await getUserById(decoded.userId)
+
     if (!user) {
       return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 })
     }
@@ -23,6 +27,7 @@ export async function GET(req: NextRequest) {
       // Ajoute d'autres champs du profil si besoin
     })
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }

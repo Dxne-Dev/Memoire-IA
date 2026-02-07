@@ -40,39 +40,24 @@ import { DarkModeSwitch } from "@/components/ui/dark-mode-switch"
 
 const menuItems = [
   {
-    title: "Dashboard",
+    title: "Cockpit",
     url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Mes Documents",
-    url: "/documents",
-    icon: FileText,
+    title: "Mes Mémoires",
+    url: "/projects",
+    icon: PenTool,
   },
   {
-    title: "Analyse IA",
-    url: "/ai-analysis",
-    icon: Brain,
+    title: "Bibliothèque",
+    url: "/documents",
+    icon: FileText,
   },
   {
     title: "Historique",
     url: "/history",
     icon: Clock,
-  },
-  {
-    title: "Paramètres",
-    url: "/settings",
-    icon: Settings,
-  },
-  {
-    title: "Profil",
-    url: "/profile",
-    icon: User,
-  },
-  {
-    title: "Abonnement",
-    url: "/subscription",
-    icon: CreditCard,
   },
 ]
 
@@ -145,7 +130,7 @@ export function AppSidebar() {
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src="/placeholder.svg?height=32&width=32" alt={user?.name || "Utilisateur"} />
                     <AvatarFallback className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                      {user?.name ? user.name.split(' ').map((n:string) => n[0]).join('').toUpperCase().slice(0,2) : 'UT'}
+                      {user?.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : 'UT'}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
@@ -186,13 +171,13 @@ export function AppSidebar() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600" onClick={async () => {
-  await fetch("/api/auth/logout", { method: "POST" })
-  localStorage.removeItem("dashboard_last_activity")
-  window.location.href = "/login"
-}}>
-  <LogOut className="mr-2 h-4 w-4" />
-  Se déconnecter
-</DropdownMenuItem>
+                  await fetch("/api/auth/logout", { method: "POST" })
+                  localStorage.removeItem("dashboard_last_activity")
+                  window.location.href = "/login"
+                }}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Se déconnecter
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

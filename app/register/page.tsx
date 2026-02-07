@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { PenTool, Mail, Lock, Eye, EyeOff, User } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { toast } from "sonner"
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -51,12 +52,13 @@ export default function RegisterPage() {
       })
       const data = await res.json()
       if (res.ok) {
-        alert('Inscription réussie ! Connectez-vous maintenant.')
+        toast.success('Inscription réussie ! Connectez-vous maintenant.')
         window.location.href = '/login'
       } else {
         setError(data.error || 'Une erreur est survenue.')
       }
     } catch (err) {
+      toast.error('Erreur de connexion au serveur.')
       setError('Erreur de connexion au serveur.')
     }
   }
