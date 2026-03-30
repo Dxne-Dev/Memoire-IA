@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    @apply bg-[#071510] text-white;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+}
+
+/* ─── Design System Utilities ─── */
+@layer components {
+
+  /* Glass card */
+  .glass {
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.30);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #34d399, #14b8a6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Progress bar */
+  .progress-track {
+    @apply h-1.5 rounded-full overflow-hidden;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-700;
+    background: linear-gradient(90deg, #34d399, #14b8a6);
+  }
+
+  /* Input field */
+  .field {
+    @apply w-full rounded-2xl px-5 py-3.5 text-sm font-medium text-white
+           placeholder-white/20 transition-all duration-200
+           focus:outline-none focus:ring-2;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+  .field:focus {
+    border-color: rgba(52, 211, 153, 0.45);
+    --tw-ring-color: rgba(52, 211, 153, 0.10);
+  }
+
+  /* Pill button primary */
+  .btn-primary {
+    @apply flex items-center justify-center gap-2
+           px-7 py-3 rounded-full
+           bg-emerald-500 hover:bg-emerald-400
+           text-white font-bold text-sm
+           shadow-lg transition-all duration-200 hover:scale-105;
+    box-shadow: 0 8px 24px rgba(52, 211, 153, 0.25);
+  }
+  .btn-primary:disabled {
+    @apply opacity-50 pointer-events-none;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply flex items-center gap-2 text-sm text-white/35
+           hover:text-white transition-colors font-medium;
+  }
+}
